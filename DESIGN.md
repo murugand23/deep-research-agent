@@ -6,7 +6,7 @@
 - I started with testing both Gemini Deep Research Agent and OpenAI Deep Research Mode to understand the requirements and output quality.
 
 ### Test prompts
-1. Who's the best player in the NBA?
+1. Who's the best player in the NBA? (please see example_report.txt)
 2. Beyond popular practices like gratitude or meditation, what's a scientifically validated yet underutilized approach for profoundly transforming one's sense of fulfillment, authenticity, and daily motivation?
 
 ---
@@ -106,12 +106,13 @@
 - Handling large context - implement more robust chunking and compression strategies
 - Could add a "summarize as you go" approach for very complex queries
 
+- Handling large context - implement tool-calling for getting research context and more robust chunking and compression strategies to handle model context window limits.
+
 ### Automated Evaluation
 - If I had more time, I would build an eval suite using LangSmith
 - **Metric 1: Sub-question Answer Accuracy:** Use a reference answer (gold standard) for each sub-question and check if the agent's key findings match (using LLM as a judge, semantic similarity).
 - **Metric 2: Citation Fidelity:** Programmatically verify that every `[source_id]` in the text actually exists in the source list and supports the claim (using LLM as a judge).
 - **Metric 3: Hallucination Rate:** Check for claims without citations.
-
 ---
 
 ## Configuration System

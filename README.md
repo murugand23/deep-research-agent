@@ -1,4 +1,4 @@
-# Deep Research Agent 🕵️‍♂️
+# Deep Research Agent 
 
 **Author:** Murugan Dhanushkodi (<murugan.n.dhanushkodi@gmail.com>)
 

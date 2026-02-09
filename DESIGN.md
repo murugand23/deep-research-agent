@@ -6,7 +6,7 @@
 - I started with testing both Gemini Deep Research Agent and OpenAI Deep Research Mode to understand the requirements and output quality.
 
 ### Test prompts
-1. Who's the best player in the NBA?
+1. Who's the best player in the NBA? (please see example_report.txt)
 2. Beyond popular practices like gratitude or meditation, what's a scientifically validated yet underutilized approach for profoundly transforming one's sense of fulfillment, authenticity, and daily motivation?
 
 ---

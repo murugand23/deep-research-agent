@@ -39,10 +39,12 @@
 ## What Worked Well
 
 ### Source-Grounded Citations
-- **The "Compiler with Tools" Failure:** I initially tried to give the compiler agent tools to search for context on the fly. However, the model context window exploded. I had to remove the tools for the writer to get more context. This constraint forced me to implement the strict `[source_id]` tracking system. Since the writer couldn't "look it up," the researcher *had* to provide explicit, cited evidence for everything. The result is a system that is far less prone to hallucination because the compiler is a synthesizer of verified facts.
+- **The "Compiler with Tools" Failure:** I initially tried to give the compiler agent tools to search for context on the fly. However, the model context window exploded. I had to remove the tools for the writer to get more context. Though this approach didn't work, this constraint forced me to implement the strict `[source_id]` tracking system. Since the writer couldn't "look it up," the researcher *had* to provide explicit, cited evidence for everything. The result is a system that is far less prone to hallucination because the compiler is a synthesizer of verified facts.
 
 ### Search Quality
 - Adding the current date context (programatically injected) and detailed prompts for each node improved web search quality
+
+- User preferences are now incorporated as part of the initial request, causing the model to return a `ReportPreferences` type as part of the planning step. Therefore the raw user input can be analyzed to detect audience type, style, focus_areas, and report constraints (word count) and that will be used during report generation.
 
 
 ### Query Generation

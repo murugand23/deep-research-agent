@@ -7,6 +7,7 @@ For full interactive experience, use LangGraph Studio: `langgraph dev`
 
 import sys
 from dotenv import load_dotenv
+from langchain_core.messages import HumanMessage
 
 from src import create_research_graph
 
@@ -26,8 +27,7 @@ def main():
     try:
         graph = create_research_graph()
         result = graph.invoke({
-            "original_query": query,
-            "messages": [],
+            "messages": [HumanMessage(content=query)],
         })
 
         print("\n✅ Complete!\n")

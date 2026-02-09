@@ -44,7 +44,7 @@ class ResearchState(TypedDict):
     """Complete state for the research agent."""
 
     messages: Annotated[list[BaseMessage], add_messages]
-    original_query: str
+    original_query: NotRequired[str]
 
     # Parsed from user's natural language request
     report_preferences: NotRequired[Optional["ReportPreferences"]]

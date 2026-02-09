@@ -39,7 +39,7 @@
 ## What Worked Well
 
 ### Source-Grounded Citations
-- **The "Compiler with Tools" Failure:** I initially tried to give the compiler agent tools to search for context on the fly. However, the model context window exploded. I had to remove the tools for the writer to get more context. Though this approach didn't work, this constraint forced me to implement the strict `[source_id]` tracking system. Since the writer couldn't "look it up," the researcher *had* to provide explicit, cited evidence for everything. The result is a system that is far less prone to hallucination because the compiler is a synthesizer of verified facts.
+- **The "Compiler with Tools" Failure:** I initially tried to give the compiler agent tools to search for context on the fly. However, the model context window exploded. Though this approach didn't work, this constraint forced me to implement the strict `[source_id]` tracking system. Since the writer couldn't "look it up," the researcher *had* to provide explicit, cited evidence for everything. The result is a system that is far less prone to hallucination because the compiler is a synthesizer of verified facts.
 
 ### Search Quality
 - Adding the current date context (programatically injected) and detailed prompts for each node improved web search quality
@@ -105,6 +105,12 @@
 ### Context Management
 - Handling large context - implement more robust chunking and compression strategies
 - Could add a "summarize as you go" approach for very complex queries
+
+### Automated Evaluation
+- If I had more time, I would build an eval suite using LangSmith
+- **Metric 1: Sub-question Answer Accuracy:** Use a reference answer (gold standard) for each sub-question and check if the agent's key findings match (using LLM as a judge, semantic similarity).
+- **Metric 2: Citation Fidelity:** Programmatically verify that every `[source_id]` in the text actually exists in the source list and supports the claim (using LLM as a judge).
+- **Metric 3: Hallucination Rate:** Check for claims without citations.
 
 ---
 

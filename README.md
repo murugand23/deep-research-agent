@@ -4,7 +4,8 @@
 
 A comprehensive, autonomous research agent built with **LangGraph** that performs deep web research, synthesizes findings, and generates structured reports.
 
-Screenshot 2026-02-09 at 9.50.39 AM.png
+<img width="317" height="617" alt="Screenshot 2026-02-09 at 9 50 39 AM" src="https://github.com/user-attachments/assets/da96e87d-9dd2-4844-8f4c-b8e7c11a6fcb" />
+
 ---
 
 ## 🚀 Features

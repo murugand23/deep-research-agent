@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+.env
+*.egg-info/
+
+# IDEs
+.vscode/
+.idea/
+.cursor/
+
+# LangGraph
+.langgraph_api/
+
+# Logs & Temp
+*.log
+src/a.txt
+src/b.txt
+src/asdf.txt
+src/Screenshot*
+tmp/
+notes/

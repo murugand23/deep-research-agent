@@ -4,8 +4,7 @@
 
 A comprehensive, autonomous research agent built with **LangGraph** that performs deep web research, synthesizes findings, and generates structured reports.
 
-![Agent Architecture](https://github.com/langchain-ai/langgraph/raw/main/docs/static/img/langgraph_logo.png) *Architecture diagram available in DESIGN.md*
-
+Screenshot 2026-02-09 at 9.50.39 AM.png
 ---
 
 ## 🚀 Features

@@ -104,14 +104,14 @@ A comprehensive, autonomous research agent built with **LangGraph** that perform
 
 ## 🏃‍♂️ Usage
 
-### Option 1: LangGraph Studio (Recommended)
+### LangGraph Studio
 
 1. Make sure you have LangGraph Studio installed.
 2. Open the project folder in LangGraph Studio.
 3. Select the `deep_research_agent` graph.
 4. Enter your query in the input field and run!
 
-### Option 2: CLI / Python
+### CLI / Python
 
 You can run the agent programmatically:
 
@@ -139,6 +139,7 @@ The agent is fully configurable. You can change defaults in `src/config.py` or o
 
 | Parameter | Default | Description |
 |-----------|---------|-------------|
+| `model` | gpt4o | LLM model (use gpt4.1, gpt4o, gpt4o-mini) |
 | `max_search_results` | 5 | Number of results retrieved per Tavily search query. |
 | `max_questions` | 10 | Maximum number of sub-questions the planner generates. |
 | `max_iterations` | 2 | Maximum number of reflection/re-research loops. |

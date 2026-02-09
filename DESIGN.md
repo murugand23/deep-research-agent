@@ -103,9 +103,7 @@
 - Dynamic section ordering based on query intent
 
 ### Context Management
-- Handling large context - implement more robust chunking and compression strategies
-- Could add a "summarize as you go" approach for very complex queries
-
+- Handling large context - implement tool-calling for getting research context and more robust chunking and compression strategies to handle model context window limits.
 ---
 
 ## Configuration System

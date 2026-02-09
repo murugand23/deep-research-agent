@@ -77,13 +77,6 @@ The agent follows a **Plan-and-Execute** architecture with a feedback loop:
 3. Select the `deep_research_agent` graph.
 4. Enter your query in the input field and run!
 
-**Configuration in Studio:**
-You can adjust the following parameters in the "Configuration" tab before running:
-- `max_search_results`: Number of results per query (Default: 5)
-- `max_questions`: Max sub-questions to generate (Default: 10)
-- `max_iterations`: Max re-research loops (Default: 2)
-- `model`: OpenAI model to use (Default: gpt-4o)
-
 ### Option 2: CLI / Python
 
 You can run the agent programmatically:
@@ -94,7 +87,7 @@ from src.graph import create_research_graph
 graph = create_research_graph()
 result = graph.invoke({
     "messages": [HumanMessage(content="Who is the best NBA player in 2026?")]
-})
+}, {"configurable": {"model": "gpt-4o-mini"}})  # <-- Change model here
 
 print(result["final_report"])
 ```

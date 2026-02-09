@@ -38,6 +38,9 @@
 
 ## What Worked Well
 
+### Source-Grounded Citations
+- **The "Writer with Tools" Failure:** I initially tried to give the writer agent tools to search for context on the fly. However, the model context window exploded. I had to remove the tools for the writer to get more context. This constraint forced me to implement the strict `[source_id]` tracking system. Since the writer couldn't "look it up," the researcher *had* to provide explicit, cited evidence for everything. The result is a system that is far less prone to hallucination because the writer is purely a synthesizer of verified facts.
+
 ### Search Quality
 - Adding the current date context (programatically injected) and detailed prompts for each node improved web search quality
 
@@ -105,7 +108,7 @@
 
 ## Configuration System
 
-Made the agent configurable via `langgraph.json` (exposed in LangGraph Studio UI):
+Made the agent configurable via `config.py` and runtime configuration:
 - `model` - LLM model selection (default: gpt-4o)
 - `temperature` - LLM temperature (default: 0.1 for researcher)
 - `max_search_results` - results per Tavily query (default: 5)
@@ -113,7 +116,7 @@ Made the agent configurable via `langgraph.json` (exposed in LangGraph Studio UI
 - `max_iterations` - max reflection iterations (default: 2)
 - `chars_per_source` - compression limit per source (default: 12000)
 
-Users can adjust these in LangGraph Studio UI without touching code, allowing easy tuning of the depth/cost tradeoff per run.
+This allows tuning the depth/cost tradeoff without code changes by passing a `configurable` dict at runtime.
 
 ---
 

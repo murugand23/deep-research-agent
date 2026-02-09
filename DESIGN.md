@@ -39,7 +39,7 @@
 ## What Worked Well
 
 ### Source-Grounded Citations
-- **The "Writer with Tools" Failure:** I initially tried to give the writer agent tools to search for context on the fly. However, the model context window exploded. I had to remove the tools for the writer to get more context. This constraint forced me to implement the strict `[source_id]` tracking system. Since the writer couldn't "look it up," the researcher *had* to provide explicit, cited evidence for everything. The result is a system that is far less prone to hallucination because the writer is purely a synthesizer of verified facts.
+- **The "Compiler with Tools" Failure:** I initially tried to give the compiler agent tools to search for context on the fly. However, the model context window exploded. I had to remove the tools for the writer to get more context. This constraint forced me to implement the strict `[source_id]` tracking system. Since the writer couldn't "look it up," the researcher *had* to provide explicit, cited evidence for everything. The result is a system that is far less prone to hallucination because the compiler is a synthesizer of verified facts.
 
 ### Search Quality
 - Adding the current date context (programatically injected) and detailed prompts for each node improved web search quality
@@ -117,66 +117,4 @@ Made the agent configurable via `config.py` and runtime configuration:
 - `chars_per_source` - compression limit per source (default: 12000)
 
 This allows tuning the depth/cost tradeoff without code changes by passing a `configurable` dict at runtime.
-
----
-
-## Final Architecture
-
-### Request Flow (Current Implementation)
-
-1. **START → Planner** (`planner.py`)
-   - User submits query
-   - Planner decomposes into max. 10 sub-questions
-   - Outputs ResearchPlan with sub-questions prioritized by importance
-
-2. **Planner → Parallel Researcher** (`researcher.py`)
-   - LangGraph fans out to research each sub-question in parallel using Send()
-   - Each researcher:
-     - Generates 4 search queries per sub-question
-     - Performs 4 Tavily basic searches (5 results each = 20 total)
-     - Re-ranks all 20 results by Tavily's score field
-     - Extracts full content from top 10 URLs (single expensive API call)
-     - Synthesizes answer with inline citations
-     - Compresses answer for report compilation
-
-3. **Parallel Researcher → Aggregator** (`graph.py`)
-   - Synchronization point - waits for all parallel research to complete
-   - Custom state reducers merge question_answers and compressed_findings from all branches
-
-4. **Aggregator → Reflection** (`reflection.py`)
-   - Analyzes research quality across all sub-questions
-   - Identifies weak answers (incomplete, missing sources, cut off)
-   - Outputs suggested_searches for improvement
-   - Decision: needs_improvement vs. compile
-
-5. **Reflection → (Re-research OR Compile)**
-   - If needs_improvement AND current_iteration < 2:
-     - Returns to Parallel Researcher with suggested_searches
-     - Researcher uses suggested_searches directly (no LLM query generation)
-     - Merges new findings with previous sources
-   - Else: proceeds to Compiler
-
-6. **Compiler → END** (`compiler.py`)
-   - Two-step process:
-     - Step 1: Plan report structure based on compressed_findings
-     - Step 2: Generate report section-by-section with context from previous sections
-   - Returns final markdown report with inline citations
-
-### Key Implementation Details
-
-- **State Management:** Uses LangGraph TypedDict with custom reducers for merging parallel results
-- **Search Optimization:** Score-based re-ranking ensures all 4 queries contribute to top 10 URLs (not just first query)
-- **Compression:** Each answer compressed at researcher level to avoid context window issues in compiler
-- **Reflection Loop:** Max 2 iterations prevents infinite loops while allowing one improvement pass
-- **Citation System:** Inline [source_id] citations tracked throughout pipeline from extraction to final report
-
-### Files Structure
-- `graph.py` - LangGraph workflow definition, routing logic
-- `state.py` - TypedDict models, custom reducers
-- `planner.py` - Query decomposition
-- `researcher.py` - Search, extraction, synthesis, compression
-- `reflection.py` - Quality analysis, iteration control
-- `compiler.py` - Report planning and generation
-- `prompts.py` - All LLM prompts with methodology frameworks
-- `config.py` - Runtime configuration schema
 

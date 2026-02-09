@@ -23,19 +23,53 @@ A comprehensive, autonomous research agent built with **LangGraph** that perform
 
 ## 🛠️ Architecture
 
-The agent follows a **Plan-and-Execute** architecture with a feedback loop:
+### Request Flow
 
-1. **Planner:** Decomposes the user's query into a structured research plan (max 10 sub-questions).
-2. **Parallel Researcher:**
-   - Fans out to research each sub-question independently.
-   - Performs multiple Tavily searches (4 queries × 5 results).
-   - Re-ranks results by score and extracts full content from top 10 URLs.
-   - Synthesizes an answer with citations and compresses it.
-3. **Aggregator:** Collects results from all parallel branches.
-4. **Reflection:** Analyzes the quality of research (completeness, sources). If gaps are found, it triggers a **re-research loop** (max 2 iterations).
-5. **Compiler:**
-   - **Phase 1:** Plans the report structure based on findings.
-   - **Phase 2:** Generates the final report section-by-section.
+1. **START → Planner** (`planner.py`)
+   - User submits query
+   - Planner decomposes into max. 10 sub-questions
+   - Outputs ResearchPlan with sub-questions prioritized by importance
+
+2. **Planner → Parallel Researcher** (`researcher.py`)
+   - LangGraph fans out to research each sub-question in parallel using Send()
+   - Each researcher:
+     - Generates 4 search queries per sub-question
+     - Performs 4 Tavily basic searches (5 results each = 20 total)
+     - Re-ranks all 20 results by Tavily's score field
+     - Extracts full content from top 10 URLs (single expensive API call)
+     - Synthesizes answer with inline citations
+     - Compresses answer for report compilation
+
+3. **Parallel Researcher → Aggregator** (`graph.py`)
+   - Synchronization point - waits for all parallel research to complete
+   - Custom state reducers merge question_answers and compressed_findings from all branches
+
+4. **Aggregator → Reflection** (`reflection.py`)
+   - Analyzes research quality across all sub-questions
+   - Identifies weak answers (incomplete, missing sources, cut off)
+   - Outputs suggested_searches for improvement
+   - Decision: needs_improvement vs. compile
+
+5. **Reflection → (Re-research OR Compile)**
+   - If needs_improvement AND current_iteration < 2:
+     - Returns to Parallel Researcher with suggested_searches
+     - Researcher uses suggested_searches directly (no LLM query generation)
+     - Merges new findings with previous sources
+   - Else: proceeds to Compiler
+
+6. **Compiler → END** (`compiler.py`)
+   - Two-step process:
+     - Step 1: Plan report structure based on compressed_findings
+     - Step 2: Generate report section-by-section with context from previous sections
+   - Returns final markdown report with inline citations
+
+### Key Implementation Details
+
+- **State Management:** Uses LangGraph TypedDict with custom reducers for merging parallel results
+- **Search Optimization:** Score-based re-ranking ensures all 4 queries contribute to top 10 URLs (not just first query)
+- **Compression:** Each answer compressed at researcher level to avoid context window issues in compiler
+- **Reflection Loop:** Max 2 iterations prevents infinite loops while allowing one improvement pass
+- **Citation System:** Inline [source_id] citations tracked throughout pipeline from extraction to final report
 
 ---
 

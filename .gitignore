@@ -23,3 +23,7 @@ src/asdf.txt
 src/Screenshot*
 tmp/
 notes/
+
+# Removed
+ARCHITECTURE.md
+tests/

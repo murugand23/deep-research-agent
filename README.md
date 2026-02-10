@@ -173,5 +173,3 @@ The agent is fully configurable. You can change defaults in `src/config.py` or o
 For a detailed breakdown of the engineering decisions, trade-offs, and iterations, please see [DESIGN.md](DESIGN.md).
 
 ---
-
-**Built for the LangChain Deep Research Agent Take-home Assignment.**

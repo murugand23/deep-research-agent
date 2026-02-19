@@ -3,7 +3,7 @@
 ## Background
 
 ### Testing Existing Solutions
-- I started with testing both Gemini Deep Research Agent and OpenAI Deep Research Mode to understand the requirements and output quality.
+- I started with testing both Gemini Deep Research Agent and OpenAI Deep Research Mode to understand output quality.
 
 ### Test prompts
 1. Who's the best player in the NBA? (please see example_report.txt)

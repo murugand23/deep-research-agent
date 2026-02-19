@@ -109,7 +109,7 @@
 - Handling large context - implement tool-calling for getting research context and more robust chunking and compression strategies to handle model context window limits.
 
 ### Automated Evaluation
-- If I had more time, I would build an eval suite using LangSmith
+- Eval suite using LangSmith
 - **Metric 1: Sub-question Answer Accuracy:** Use a reference answer (gold standard) for each sub-question and check if the agent's key findings match (using LLM as a judge, semantic similarity).
 - **Metric 2: Citation Fidelity:** Programmatically verify that every `[source_id]` in the text actually exists in the source list and supports the claim (using LLM as a judge).
 - **Metric 3: Hallucination Rate:** Check for claims without citations.
